@@ -1,7 +1,7 @@
 // root & variables************
-:root {
-    $background-color: #1a191f;
-}
+$background-color: #1a191f;
+$text-color: #ffffff;
+
 
 * {
     margin: 0;
@@ -9,8 +9,103 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 16px;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 10px;
     background-color: $background-color;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.header {
+    height: 60px;
+    font-size: 1rem;
+
+    .header__flexbox {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 1rem;
+        padding: 1rem;
+
+        .header__logo {
+            font-size: 2rem;
+
+            a {
+                text-decoration: none;
+                color: $text-color;
+            }
+        }
+
+        .header__navbar {
+
+            .header__navbar-list {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: flex-start;
+                list-style: none;
+
+                .nav__link {
+                    position: relative;
+                    display: block;
+
+                    >a {
+                        color: $text-color;
+                        font-size: 1.125rem;
+                        padding: 0.5rem 2rem 0.5rem 0.5rem;
+                        text-decoration: none;
+
+                        &:hover {
+                            background-color: $text-color;
+                            color: $background-color;
+                        }
+                    }
+
+                    &:hover>ul {
+                        display: initial;
+                    }
+                }
+
+                .nav__link-list {
+                    display: none;
+                    list-style: none;
+                    position: absolute;
+                    left: 0;
+                    top: 2rem;
+                    width: 180px;
+                    background-color: $text-color;
+
+                    a.nav__link-item {
+                        display: block;
+                        padding: 0.5rem;
+                        width: 100%;
+                        color: $background-color;
+                        text-decoration: none;
+                        font-size: 1rem;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+
+                        &:hover {
+                            background-color: $background-color;
+                            color: $text-color;
+                        }
+                    }
+                }
+            }
+        }
+
+        .header__search {
+            padding: 0.5rem;
+            border: 2px solid $background-color;
+            border-radius: 0.3125rem;
+            outline: none;
+        }
+    }
 }
