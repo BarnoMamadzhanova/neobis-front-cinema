@@ -60,12 +60,11 @@ function displayMovies(data) {
         )}</div>
         <div class="movie__year">${movie.year}</div>
         ${
-          movie.rating &&
-          `
-        <div class="movie__rating movie__rating--${getClassByRating(
           movie.rating
-        )}">${movie.rating}</div>
-        `
+            ? `<div class="movie__rating movie__rating--${getClassByRating(
+                movie.rating
+              )}">${movie.rating}</div>`
+            : "" // Empty string if rating doesn't exist
         }
 
     </div>
