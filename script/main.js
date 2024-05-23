@@ -1,11 +1,15 @@
+//*************consts */
 const limit = 10;
+const form = document.querySelector(".header__form");
+const search = document.querySelector(".header__search");
 const API_KEY = "7e51323f-835f-418b-923a-51345a73fe8e";
 const API_KEY_SEARCH = `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=`;
 const API_URL_PREMIERES = `https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=2024&month=MAY`;
 
-getPremieres(API_URL_PREMIERES);
+getMovies(API_URL_PREMIERES);
 
-async function getPremieres(url) {
+//****************fetching URL */
+async function getMovies(url) {
   try {
     const response = await fetch(url, {
       headers: {
@@ -20,20 +24,24 @@ async function getPremieres(url) {
   }
 }
 
-function getClassByRating(rating) {
-  if (rating >= 7) {
-    return "green";
-  } else if (rating > 5) {
-    return "orange";
-  } else {
-    return "red";
-  }
-}
-
+//*******************Displayng movie cards */
 function displayMovies(data) {
   const moviesEl = document.querySelector(".movies__grid-box");
+  document.querySelector(".movies__grid-box").innerHTML = "";
 
-  data.items.forEach((movie) => {
+  let movies = [];
+  if (data.films) {
+    movies = data.films;
+  } else if (data.releases) {
+    movies = data.releases;
+  } else if (data.items) {
+    movies = data.items;
+  } else {
+    console.error("Unexpected response format:", data);
+    return;
+  }
+
+  movies.forEach((movie) => {
     const movieEl = document.createElement("div");
     movieEl.classList.add("movie");
     movieEl.innerHTML = `
@@ -51,11 +59,39 @@ function displayMovies(data) {
           (genre) => ` ${genre.genre}`
         )}</div>
         <div class="movie__year">${movie.year}</div>
+        ${
+          movie.rating &&
+          `
         <div class="movie__rating movie__rating--${getClassByRating(
           movie.rating
         )}">${movie.rating}</div>
+        `
+        }
+
     </div>
     `;
     moviesEl.appendChild(movieEl);
   });
 }
+
+//*************Calculating Class by rating */
+function getClassByRating(rating) {
+  if (rating >= 7) {
+    return "green";
+  } else if (rating > 5) {
+    return "orange";
+  } else {
+    return "red";
+  }
+}
+
+//********************Getting movies by search */
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const apiSearchUrl = `${API_KEY_SEARCH}${search.value}`;
+  if (search.value) {
+    getMovies(apiSearchUrl);
+    search.value = "";
+  }
+});
