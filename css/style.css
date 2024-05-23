@@ -96,7 +96,7 @@ body {
 .movies__grid-box {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 .movies__grid-box .movie {
   position: relative;
@@ -170,15 +170,14 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #1a191f;
-  color: #ffffff;
   font-size: 0.875rem;
 }
 .movies__grid-box .movie .movie__info .movie__rating--green {
-  border: 2px solid green;
+  color: green;
 }
 .movies__grid-box .movie .movie__info .movie__rating--orange {
-  border: 2px solid orange;
+  color: orange;
 }
 .movies__grid-box .movie .movie__info .movie__rating--red {
-  border: 2px solid red;
+  color: red;
 }/*# sourceMappingURL=style.css.map */

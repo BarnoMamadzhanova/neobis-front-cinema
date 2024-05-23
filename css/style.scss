@@ -122,7 +122,7 @@ body {
 .movies__grid-box {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
+    gap: 1.5rem;
 
     .movie {
         position: relative;
@@ -206,20 +206,19 @@ body {
                 justify-content: center;
                 align-items: center;
                 background-color: $background-color;
-                color: $text-color;
                 font-size: 0.875rem;
             }
 
             .movie__rating--green {
-                border: 2px solid green;
+                color: green;
             }
 
             .movie__rating--orange {
-                border: 2px solid orange;
+                color: orange;
             }
 
             .movie__rating--red {
-                border: 2px solid red;
+                color: red;
             }
         }
     }
