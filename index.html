@@ -9,7 +9,9 @@
 </head>
 
 <body>
-    //**************Header started****************
+
+    <!--**************Header started**************** -->
+
     <header class="header">
         <div class="header__flexbox">
 
@@ -23,8 +25,8 @@
                         <ul>
                             <li><a href="#" role="button" class="nav__link">Премьеры</a></li>
                             <li><a href="#" role="button" class="nav__link">Топ ожидаемых фильмов</a></li>
-                            <li><a href="#" role="button" class="nav__link">Топ лучших</a></li>
-                            <li><a href="#" role="button" class="nav__link">цифровые релизы</a></li>
+                            <li><a href="#" role="button" class="nav__link">Топ лучших фильмов</a></li>
+                            <li><a href="#" role="button" class="nav__link">Цифровые релизы</a></li>
                         </ul>
                     </li>
                     <li><a href="#" class="header__link nav__link" role="button">Избранное</a></li>
@@ -39,10 +41,27 @@
 
     </header>
 
-    //**************Main section******************
-    <main class="main"></main>
+    <!--**************Main section******************-->
+    <main>
+        <div class="movies-container">
+            <div class="movies">
+                <div class="movie">
+                    <div class="movie__cover-inner">
+                        <img src="" class="movie__cover" alt="">
+                        <div class="movie__cover--overlay"></div>
+                    </div>
+                    <div class="movie__info">
+                        <div class="movie__title"></div>
+                        <div class="movie__category"></div>
+                        <div class="movie__year"></div>
+                        <div class="movie__rating movie__rating-green"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-    //**************Script************************
+    <!--**************Script************************ -->
     <script src="./script/main.js"></script>
 </body>
 
