@@ -2,11 +2,14 @@
 const limit = 10;
 const form = document.querySelector(".header__form");
 const search = document.querySelector(".header__search");
+const premiereBtn = document.querySelector("#premieres");
+const comingSoonBtn = document.querySelector("#coming-soon");
+const bestBtn = document.querySelector("#best");
+const digitalBtn = document.querySelector("#digital");
+const favoriteBtn = document.querySelector("favorite");
 const API_KEY = "7e51323f-835f-418b-923a-51345a73fe8e";
 const API_KEY_SEARCH = `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=`;
 const API_URL_PREMIERES = `https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=2024&month=MAY`;
-
-getMovies(API_URL_PREMIERES);
 
 //****************fetching URL */
 async function getMovies(url) {
@@ -94,3 +97,33 @@ form.addEventListener("submit", (e) => {
     search.value = "";
   }
 });
+
+//********************Getting premieres */
+premiereBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  getMovies(API_URL_PREMIERES);
+});
+
+//********************Getting coming soon */
+comingSoonBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  getMovies(API_URL_COMING_SOON);
+});
+
+//********************Getting top movies */
+bestBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  getMovies(API_URL_BEST);
+});
+
+//********************Getting digital releases */
+digitalBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  getMovies(API_URL_DIGITAL);
+});
+
+//********************Getting favorites */
+// favoriteBtn.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   getMovies(API_URL_FAVORITE);
+// });
