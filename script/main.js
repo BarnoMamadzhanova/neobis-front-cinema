@@ -11,10 +11,12 @@ const favoriteBtn = document.querySelector("#favorite");
 //******************API Urls* */
 const limit = 10;
 const API_KEY = "7e51323f-835f-418b-923a-51345a73fe8e";
+const API_KEY_POPULAR = `https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_POPULAR_ALL&page=1`;
 const API_KEY_SEARCH = `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=`;
 const API_URL_PREMIERES = `https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=2024&month=MAY`;
 const API_URL_BEST = `https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_250_MOVIES&page=1`;
 const API_URL_DIGITAL = `https://kinopoiskapiunofficial.tech/api/v2.1/films/releases?year=2024&month=MAY&page=1`;
+const API_URL_COMING_SOON = `https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=FILM&ratingFrom=95&ratingTo=100&yearFrom=2024&yearTo=3000&page=1`;
 
 //****************fetching URL */
 async function getMovies(url) {
@@ -98,6 +100,9 @@ function displayMovies(data) {
   });
 }
 
+//*******************Getting popular movies */
+// getMovies(API_KEY_POPULAR);
+
 //********************Getting movies by search */
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -138,3 +143,6 @@ digitalBtn.addEventListener("click", (e) => {
 //   e.preventDefault();
 //   getMovies(API_URL_FAVORITE);
 // });
+
+// ratingAwait
+// &bigtriangledown;
