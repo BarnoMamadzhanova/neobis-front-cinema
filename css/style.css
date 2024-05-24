@@ -45,8 +45,9 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   list-style: none;
+  height: 2rem;
 }
 .header .header__flexbox .header__navbar .header__navbar-list .nav__link {
   position: relative;
@@ -64,6 +65,12 @@ body {
 }
 .header .header__flexbox .header__navbar .header__navbar-list .nav__link details {
   display: inline-block;
+  position: relative;
+  width: 180px;
+  z-index: 5;
+}
+.header .header__flexbox .header__navbar .header__navbar-list .nav__link details[open] {
+  padding-top: 156px;
 }
 .header .header__flexbox .header__navbar .header__navbar-list .nav__link details summary {
   color: #ffffff;
@@ -75,14 +82,17 @@ body {
   background-color: #ffffff;
   color: #1a191f;
 }
-.header .header__flexbox .header__navbar .header__navbar-list .nav__link details p {
-  top: 2.5rem;
+.header .header__flexbox .header__navbar .header__navbar-list .nav__link details > div {
+  position: relative;
+  z-index: inherit;
+}
+.header .header__flexbox .header__navbar .header__navbar-list .nav__link details > div p {
   width: 180px;
   background-color: #ffffff;
   margin: 0;
   z-index: 1;
 }
-.header .header__flexbox .header__navbar .header__navbar-list .nav__link details p a.nav__link-item {
+.header .header__flexbox .header__navbar .header__navbar-list .nav__link details > div p a.nav__link-item {
   display: block;
   padding: 0.5rem;
   width: 100%;
@@ -91,7 +101,7 @@ body {
   font-size: 1rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
-.header .header__flexbox .header__navbar .header__navbar-list .nav__link details p a.nav__link-item:hover {
+.header .header__flexbox .header__navbar .header__navbar-list .nav__link details > div p a.nav__link-item:hover {
   background-color: #1a191f;
   color: #ffffff;
 }
@@ -103,6 +113,7 @@ body {
 }
 
 .movies__grid-box {
+  padding: 1.5rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
@@ -141,21 +152,24 @@ body {
   padding: 0.1rem 0;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: -moz-fit-content;
+  min-height: fit-content;
   gap: 0.5rem;
   color: #ffffff;
   font-size: 1.2rem;
 }
-.movies__grid-box .movie .movie__info .movie__title-box a {
-  text-decoration: none;
+.movies__grid-box .movie .movie__info .movie__title-box button {
+  border: none;
+  background-color: #1a191f;
   color: #ffffff;
   font-size: 1.8rem;
 }
-.movies__grid-box .movie .movie__info .movie__title-box a .movie__favorite {
+.movies__grid-box .movie .movie__info .movie__title-box button .movie__favorite {
   color: rgba(135, 0, 0, 0.84);
 }
-.movies__grid-box .movie .movie__info .movie__title-box a:hover {
+.movies__grid-box .movie .movie__info .movie__title-box button:hover {
   cursor: pointer;
 }
 .movies__grid-box .movie .movie__info .movie__category {
@@ -180,6 +194,7 @@ body {
   align-items: center;
   background-color: #1a191f;
   font-size: 0.875rem;
+  font-weight: 700;
 }
 .movies__grid-box .movie .movie__info .movie__rating--green {
   color: green;

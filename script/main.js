@@ -7,21 +7,25 @@ const comingSoonBtn = document.querySelector("#coming-soon");
 const bestBtn = document.querySelector("#best");
 const digitalBtn = document.querySelector("#digital");
 const favoriteBtn = document.querySelector("#favorite");
+const navDetails = document.querySelector(".nav__link > details");
+const navDetailItems = document.querySelectorAll(".nav__link-item");
 
 //******************API Urls* */
-const limit = 10;
+const limit = 12;
 const API_KEY = "7e51323f-835f-418b-923a-51345a73fe8e";
-const API_KEY_POPULAR = `https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_POPULAR_ALL&page=1`;
-const API_KEY_SEARCH = `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=`;
-const API_URL_PREMIERES = `https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=2024&month=MAY`;
-const API_URL_BEST = `https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_250_MOVIES&page=1`;
-const API_URL_DIGITAL = `https://kinopoiskapiunofficial.tech/api/v2.1/films/releases?year=2024&month=MAY&page=1`;
-const API_URL_COMING_SOON = `https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=FILM&ratingFrom=95&ratingTo=100&yearFrom=2024&yearTo=3000&page=1`;
+const API_URL_POPULAR = `v2.2/films/collections?type=TOP_POPULAR_ALL&page=1`;
+const API_URL_SEARCH = `v2.1/films/search-by-keyword?keyword=`;
+const API_URL_PREMIERES = `v2.2/films/premieres?year=2024&month=MAY`;
+const API_URL_BEST = `v2.2/films/collections?type=TOP_250_MOVIES&page=1`;
+const API_URL_DIGITAL = `v2.1/films/releases?year=2024&month=MAY&page=1`;
+const API_URL_COMING_SOON = `v2.2/films/collections?type=CLOSES_RELEASES&page=1`;
 
 //****************fetching URL */
 async function getMovies(url) {
+  const BASE_URL = `https://kinopoiskapiunofficial.tech/api/`;
+
   try {
-    const response = await fetch(url, {
+    const response = await fetch(BASE_URL.concat(url), {
       headers: {
         "Content-type": "application/json",
         "X-API-KEY": API_KEY,
@@ -39,11 +43,16 @@ function getRating(movie) {
   return movie.rating ?? movie.ratingKinopoisk ?? null;
 }
 
+//*********Getting movie name according to response */
+function getMovieName(movie) {
+  return movie.nameRu ?? movie.nameEn ?? movie.nameOriginal ?? null;
+}
+
 //*************Calculating Class by rating */
 function getClassByRating(rating) {
-  if (rating >= 7) {
+  if (rating >= 8) {
     return "green";
-  } else if (rating >= 5) {
+  } else if (8 > rating && rating >= 5) {
     return "orange";
   } else {
     return "red";
@@ -67,33 +76,40 @@ function displayMovies(data) {
     return;
   }
 
-  movies.forEach((movie) => {
+  movies.slice(0, limit).forEach((movie) => {
     const rating = getRating(movie);
+    const name = getMovieName(movie);
 
     const movieEl = document.createElement("div");
+
+    let outputRating = "";
+    if (rating && rating !== "null") {
+      let classByRating = getClassByRating(rating);
+      outputRating = `<div class="movie__rating movie__rating--${classByRating}">${rating}</div>`;
+    }
+
+    let outputYear = "";
+    if (movie.year && movie.year >= 1000) {
+      outputYear = `<div class="movie__year">${movie.year}</div>`;
+    }
+
     movieEl.classList.add("movie");
     movieEl.innerHTML = `
     <div class="movie__cover-inner">
     <img src="${movie.posterUrlPreview}"
-        class="movie__cover" alt="${movie.nameRu}">
+        class="movie__cover" alt="${name}">
     <div class="movie__cover--overlay"></div>
     </div>
     <div class="movie__info">
         <div class="movie__title-box">
-            <div class="movie__title">${movie.nameRu}</div>
-            <a href="#">&#9829</a>
+            <div class="movie__title">${name}</div>
+            <button id="favorite">&#9829</button>
         </div>
         <div class="movie__category">${movie.genres.map(
           (genre) => ` ${genre.genre}`
         )}</div>
-        <div class="movie__year">${movie.year}</div>
-        ${
-          rating
-            ? `<div class="movie__rating movie__rating--${getClassByRating(
-                rating
-              )}">${rating}</div>`
-            : ""
-        }
+        ${outputYear}
+        ${outputRating}
     </div>
     `;
     moviesEl.appendChild(movieEl);
@@ -101,13 +117,13 @@ function displayMovies(data) {
 }
 
 //*******************Getting popular movies */
-// getMovies(API_KEY_POPULAR);
+getMovies(API_URL_POPULAR);
 
 //********************Getting movies by search */
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const apiSearchUrl = `${API_KEY_SEARCH}${search.value}`;
+  const apiSearchUrl = `${API_URL_SEARCH}${search.value}`;
   if (search.value) {
     getMovies(apiSearchUrl);
     search.value = "";
@@ -138,11 +154,14 @@ digitalBtn.addEventListener("click", (e) => {
   getMovies(API_URL_DIGITAL);
 });
 
+navDetailItems.forEach((item) => {
+  item.addEventListener("click", function () {
+    navDetails.removeAttribute("open");
+  });
+});
+
 //********************Getting favorites */
 // favoriteBtn.addEventListener("click", (e) => {
 //   e.preventDefault();
 //   getMovies(API_URL_FAVORITE);
 // });
-
-// ratingAwait
-// &bigtriangledown;
