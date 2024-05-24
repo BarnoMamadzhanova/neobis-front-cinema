@@ -1,15 +1,20 @@
-//*************consts */
-const limit = 10;
+//*************consts & selectors */
+
 const form = document.querySelector(".header__form");
 const search = document.querySelector(".header__search");
 const premiereBtn = document.querySelector("#premieres");
 const comingSoonBtn = document.querySelector("#coming-soon");
 const bestBtn = document.querySelector("#best");
 const digitalBtn = document.querySelector("#digital");
-const favoriteBtn = document.querySelector("favorite");
+const favoriteBtn = document.querySelector("#favorite");
+
+//******************API Urls* */
+const limit = 10;
 const API_KEY = "7e51323f-835f-418b-923a-51345a73fe8e";
 const API_KEY_SEARCH = `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=`;
 const API_URL_PREMIERES = `https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=2024&month=MAY`;
+const API_URL_BEST = `https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_250_MOVIES&page=1`;
+const API_URL_DIGITAL = `https://kinopoiskapiunofficial.tech/api/v2.1/films/releases?year=2024&month=MAY&page=1`;
 
 //****************fetching URL */
 async function getMovies(url) {
@@ -24,6 +29,22 @@ async function getMovies(url) {
     displayMovies(responseData);
   } catch (error) {
     console.error("Error fetching data:", error);
+  }
+}
+
+//*********Getting rating name according to response */
+function getRating(movie) {
+  return movie.rating ?? movie.ratingKinopoisk ?? null;
+}
+
+//*************Calculating Class by rating */
+function getClassByRating(rating) {
+  if (rating >= 7) {
+    return "green";
+  } else if (rating >= 5) {
+    return "orange";
+  } else {
+    return "red";
   }
 }
 
@@ -45,6 +66,8 @@ function displayMovies(data) {
   }
 
   movies.forEach((movie) => {
+    const rating = getRating(movie);
+
     const movieEl = document.createElement("div");
     movieEl.classList.add("movie");
     movieEl.innerHTML = `
@@ -63,28 +86,16 @@ function displayMovies(data) {
         )}</div>
         <div class="movie__year">${movie.year}</div>
         ${
-          movie.rating
+          rating
             ? `<div class="movie__rating movie__rating--${getClassByRating(
-                movie.rating
-              )}">${movie.rating}</div>`
-            : "" // Empty string if rating doesn't exist
+                rating
+              )}">${rating}</div>`
+            : ""
         }
-
     </div>
     `;
     moviesEl.appendChild(movieEl);
   });
-}
-
-//*************Calculating Class by rating */
-function getClassByRating(rating) {
-  if (rating >= 7) {
-    return "green";
-  } else if (rating > 5) {
-    return "orange";
-  } else {
-    return "red";
-  }
 }
 
 //********************Getting movies by search */
