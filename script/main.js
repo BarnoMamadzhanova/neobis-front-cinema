@@ -48,6 +48,11 @@ function getMovieName(movie) {
   return movie.nameRu ?? movie.nameEn ?? movie.nameOriginal ?? null;
 }
 
+//*********Getting id according to response */
+function getMovieId(movie) {
+  return movie.kinopoiskId ?? movie.filmId ?? movie.imdbId ?? null;
+}
+
 //*************Calculating Class by rating */
 function getClassByRating(rating) {
   if (rating >= 8) {
@@ -79,6 +84,8 @@ function displayMovies(data) {
   movies.slice(0, limit).forEach((movie) => {
     const rating = getRating(movie);
     const name = getMovieName(movie);
+    const movieID = getMovieId(movie);
+    console.log(movieID);
 
     const movieEl = document.createElement("div");
 
@@ -103,7 +110,7 @@ function displayMovies(data) {
     <div class="movie__info">
         <div class="movie__title-box">
             <div class="movie__title">${name}</div>
-            <button id="favorite">&#9829</button>
+            <button id="addFavorite">&#9829</button>
         </div>
         <div class="movie__category">${movie.genres.map(
           (genre) => ` ${genre.genre}`
@@ -112,6 +119,8 @@ function displayMovies(data) {
         ${outputRating}
     </div>
     `;
+    // const btnAddToFavorite = document.querySelector("#addFavorite");
+    // btnAddToFavorite.addEventListener("click", () => addToFavorite(movieID));
     moviesEl.appendChild(movieEl);
   });
 }
@@ -159,6 +168,15 @@ navDetailItems.forEach((item) => {
     navDetails.removeAttribute("open");
   });
 });
+
+//****************************Favorites */
+let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
+
+// async function addToFavorite() {
+//   if (!localStorage.getItem("favoriteMovies")) {
+//     localStorage.setItem("favoriteMovies", "[]");
+//   }
+// }
 
 //********************Getting favorites */
 // favoriteBtn.addEventListener("click", (e) => {
