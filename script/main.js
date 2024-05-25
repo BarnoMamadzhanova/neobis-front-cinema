@@ -7,6 +7,7 @@ const comingSoonBtn = document.querySelector("#coming-soon");
 const bestBtn = document.querySelector("#best");
 const digitalBtn = document.querySelector("#digital");
 const favoriteBtn = document.querySelector("#favorite");
+const btnAddToFavorite = document.querySelector("#addFavorite");
 const navDetails = document.querySelector(".nav__link > details");
 const navDetailItems = document.querySelectorAll(".nav__link-item");
 
@@ -21,6 +22,8 @@ const API_URL_DIGITAL = `v2.1/films/releases?year=2024&month=MAY&page=1`;
 const API_URL_COMING_SOON = `v2.2/films/collections?type=CLOSES_RELEASES&page=1`;
 
 //****************fetching URL */
+let movies = [];
+
 async function getMovies(url) {
   const BASE_URL = `https://kinopoiskapiunofficial.tech/api/`;
 
@@ -50,7 +53,7 @@ function getMovieName(movie) {
 
 //*********Getting id according to response */
 function getMovieId(movie) {
-  return movie.kinopoiskId ?? movie.filmId ?? movie.imdbId ?? null;
+  return movie.kinopoiskId ?? movie.filmId ?? movie.imdbId;
 }
 
 //*************Calculating Class by rating */
@@ -69,7 +72,6 @@ function displayMovies(data) {
   const moviesEl = document.querySelector(".movies__grid-box");
   document.querySelector(".movies__grid-box").innerHTML = "";
 
-  let movies = [];
   if (data.films) {
     movies = data.films;
   } else if (data.releases) {
@@ -81,11 +83,17 @@ function displayMovies(data) {
     return;
   }
 
+  const favoriteMovies =
+    JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+
   movies.slice(0, limit).forEach((movie) => {
     const rating = getRating(movie);
     const name = getMovieName(movie);
     const movieID = getMovieId(movie);
-    console.log(movieID);
+
+    const isFavorite = favoriteMovies.some(
+      (favoriteMovie) => getMovieId(favoriteMovie) == movieID
+    );
 
     const movieEl = document.createElement("div");
 
@@ -110,7 +118,7 @@ function displayMovies(data) {
     <div class="movie__info">
         <div class="movie__title-box">
             <div class="movie__title">${name}</div>
-            <button id="addFavorite">&#9829</button>
+            <button class="addFavorite" data-id="${movieID}">&#9829</button>
         </div>
         <div class="movie__category">${movie.genres.map(
           (genre) => ` ${genre.genre}`
@@ -119,9 +127,14 @@ function displayMovies(data) {
         ${outputRating}
     </div>
     `;
-    // const btnAddToFavorite = document.querySelector("#addFavorite");
-    // btnAddToFavorite.addEventListener("click", () => addToFavorite(movieID));
     moviesEl.appendChild(movieEl);
+  });
+
+  document.querySelectorAll(".addFavorite").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const selectedId = e.target.getAttribute("data-id");
+      addToFavorite(selectedId);
+    });
   });
 }
 
@@ -170,13 +183,23 @@ navDetailItems.forEach((item) => {
 });
 
 //****************************Favorites */
-let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
+async function addToFavorite(selectedId) {
+  if (!localStorage.getItem("favoriteMovies")) {
+    localStorage.setItem("favoriteMovies", "[]");
+  }
 
-// async function addToFavorite() {
-//   if (!localStorage.getItem("favoriteMovies")) {
-//     localStorage.setItem("favoriteMovies", "[]");
-//   }
-// }
+  let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
+
+  const favoriteMovie = movies.find((movie) => getMovieId(movie) == selectedId);
+
+  if (
+    favoriteMovies.length === 0 ||
+    !favoriteMovies.some((movie) => getMovieId(movie) == selectedId)
+  ) {
+    favoriteMovies.push(favoriteMovie);
+    localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
+  }
+}
 
 //********************Getting favorites */
 // favoriteBtn.addEventListener("click", (e) => {
