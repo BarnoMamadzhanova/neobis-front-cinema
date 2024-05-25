@@ -10,6 +10,7 @@ const favoriteBtn = document.querySelector("#favorite");
 const btnAddToFavorite = document.querySelector("#addFavorite");
 const navDetails = document.querySelector(".nav__link > details");
 const navDetailItems = document.querySelectorAll(".nav__link-item");
+const modalEl = document.querySelector(".modal__window");
 
 //******************API Urls* */
 const limit = 12;
@@ -20,6 +21,7 @@ const API_URL_PREMIERES = `v2.2/films/premieres?year=2024&month=MAY`;
 const API_URL_BEST = `v2.2/films/collections?type=TOP_250_MOVIES&page=1`;
 const API_URL_DIGITAL = `v2.1/films/releases?year=2024&month=MAY&page=1`;
 const API_URL_COMING_SOON = `v2.2/films/collections?type=CLOSES_RELEASES&page=1`;
+const API_URL_DETAILS = `https://kinopoiskapiunofficial.tech/api/v2.2/films/`;
 
 let movies = [];
 
@@ -135,6 +137,7 @@ function displayMovies(data) {
         ${outputRating}
     </div>
     `;
+    movieEl.addEventListener("click", () => openModal(movieID));
     moviesEl.appendChild(movieEl);
   });
 
@@ -220,4 +223,71 @@ favoriteBtn.addEventListener("click", (e) => {
   e.preventDefault();
   const favoriteMovies = getFavoriteMovies();
   displayMovies(favoriteMovies);
+});
+
+//***********************Modal Window*******/
+
+async function openModal(id) {
+  const responseByID = await fetch(API_URL_DETAILS.concat(id), {
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-KEY": API_KEY,
+    },
+  });
+
+  const responseByIdData = await responseByID.json();
+
+  modalEl.classList.add("modal--display");
+  document.body.classList.add("stop-scrolling");
+
+  modalEl.innerHTML = `
+    <div class="modal__card">
+      <img class="modal__movie-backdrop" src="${
+        responseByIdData.posterUrlPreview
+      }" alt="${responseByIdData.nameRu}">
+      <h2 class="modal__movie-titlebox">
+        <span class="modal__movie-title">${responseByIdData.nameRu}</span>
+        <span class="modal__movie-release-year"> - ${
+          responseByIdData.year
+        }</span>
+      </h2>
+      <ul class="modal__movie-info">
+        <div class="loader"></div>
+        <li class="modal__movie-genre">Жанр - ${responseByIdData.genres.map(
+          (el) => `<span>${el.genre}</span>`
+        )}</li>
+        ${
+          responseByIdData.filmLength
+            ? `<li class="modal__movie-runtime">Время - ${responseByIdData.filmLength} минут</li>`
+            : ""
+        }
+        <li >Сайт: <a class="modal__movie-website" href="${
+          responseByIdData.webUrl
+        }">${responseByIdData.webUrl}</a></li>
+        <li class="modal__movie-overview">Описание - ${
+          responseByIdData.description
+        }</li>
+      </ul>
+      <button type="button" class="modal__btn-close">Закрыть</button>
+    </div>
+  `;
+  const btnClose = document.querySelector(".modal__btn-close");
+  btnClose.addEventListener("click", () => closeModal());
+}
+
+function closeModal() {
+  modalEl.classList.remove("modal--display");
+  document.body.classList.remove("stop-scrolling");
+}
+
+window.addEventListener("click", (e) => {
+  if (e.target === modalEl) {
+    closeModal();
+  }
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.keyCode === 27) {
+    closeModal();
+  }
 });

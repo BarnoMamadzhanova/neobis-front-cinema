@@ -204,4 +204,60 @@ body {
 }
 .movies__grid-box .movie .movie__info .movie__rating--red {
   color: red;
+}
+
+.modal__window {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: width 2s;
+}
+
+.modal--display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal--display .modal__card {
+  background-color: #ffffff;
+  max-width: 600px;
+  padding: 1rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.5);
+  background-color: #1a191f;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+.modal--display .modal__card .modal__movie-backdrop {
+  width: 200px;
+  margin: 0 auto;
+}
+.modal--display .modal__card .modal__movie-titlebox {
+  margin: 0.5rem 0;
+}
+.modal--display .modal__card .modal__movie-info {
+  margin-left: 1rem;
+}
+.modal--display .modal__card .modal__btn-close {
+  padding: 0.3rem 0.5rem;
+  margin: 0.5rem;
+  align-self: center;
+  border-radius: 0.25rem;
+}
+.modal--display .modal__card .modal__movie-website {
+  color: #ffd80e;
+}
+.modal--display .modal__card ul li {
+  padding: 0.25rem;
+}
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
 }/*# sourceMappingURL=style.css.map */

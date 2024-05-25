@@ -256,3 +256,68 @@ body {
         }
     }
 }
+
+.modal__window {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba($movie-bgColor, 0.5);
+    transition: width 2s;
+
+}
+
+.modal--display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal__card {
+        background-color: $text-color;
+        max-width: 600px;
+        padding: 1rem;
+        box-shadow: 0 0 1rem 0 rgba($movie-bgColor, 0.5);
+        background-color: $background-color;
+        color: $text-color;
+        display: flex;
+        flex-direction: column;
+
+        .modal__movie-backdrop {
+            width: 200px;
+            margin: 0 auto
+        }
+
+        .modal__movie-titlebox {
+            margin: 0.5rem 0;
+        }
+
+        .modal__movie-info {
+            margin-left: 1rem;
+        }
+
+        .modal__btn-close {
+            padding: 0.3rem 0.5rem;
+            margin: 0.5rem;
+            align-self: center;
+            border-radius: 0.25rem;
+        }
+
+        .modal__movie-website {
+            color: $movie-categoryColor
+        }
+
+        ul li {
+            padding: 0.25rem;
+        }
+    }
+}
+
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
