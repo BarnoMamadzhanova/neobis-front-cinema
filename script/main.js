@@ -21,9 +21,14 @@ const API_URL_BEST = `v2.2/films/collections?type=TOP_250_MOVIES&page=1`;
 const API_URL_DIGITAL = `v2.1/films/releases?year=2024&month=MAY&page=1`;
 const API_URL_COMING_SOON = `v2.2/films/collections?type=CLOSES_RELEASES&page=1`;
 
-//****************fetching URL */
 let movies = [];
 
+// Retrieve favorite movies from local storage
+function getFavoriteMovies() {
+  return JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+}
+
+//****************fetching URL */
 async function getMovies(url) {
   const BASE_URL = `https://kinopoiskapiunofficial.tech/api/`;
 
@@ -70,7 +75,7 @@ function getClassByRating(rating) {
 //*******************Displayng movie cards */
 function displayMovies(data) {
   const moviesEl = document.querySelector(".movies__grid-box");
-  document.querySelector(".movies__grid-box").innerHTML = "";
+  moviesEl.innerHTML = ""; // Clear previous movies
 
   if (data.films) {
     movies = data.films;
@@ -78,13 +83,14 @@ function displayMovies(data) {
     movies = data.releases;
   } else if (data.items) {
     movies = data.items;
+  } else if (Array.isArray(data)) {
+    movies = data; // To handle the favoriteMovies array
   } else {
     console.error("Unexpected response format:", data);
     return;
   }
 
-  const favoriteMovies =
-    JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+  const favoriteMovies = getFavoriteMovies();
 
   movies.slice(0, limit).forEach((movie) => {
     const rating = getRating(movie);
@@ -140,6 +146,31 @@ function displayMovies(data) {
   });
 }
 
+//****************************Favorites */
+async function toggleFavorite(button, selectedId) {
+  if (!localStorage.getItem("favoriteMovies")) {
+    localStorage.setItem("favoriteMovies", "[]");
+  }
+
+  let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
+  const movie = movies.find((movie) => getMovieId(movie) == selectedId);
+  const isFavorite = favoriteMovies.some(
+    (favoriteMovie) => getMovieId(favoriteMovie) == selectedId
+  );
+
+  if (isFavorite) {
+    favoriteMovies = favoriteMovies.filter(
+      (favoriteMovie) => getMovieId(favoriteMovie) != selectedId
+    );
+    button.classList.remove("movie__favorite");
+  } else {
+    favoriteMovies.push(movie);
+    button.classList.add("movie__favorite");
+  }
+
+  localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
+}
+
 //*******************Getting popular movies */
 getMovies(API_URL_POPULAR);
 
@@ -184,51 +215,9 @@ navDetailItems.forEach((item) => {
   });
 });
 
-//****************************Favorites */
-// async function addToFavorite(selectedId) {
-//   if (!localStorage.getItem("favoriteMovies")) {
-//     localStorage.setItem("favoriteMovies", "[]");
-//   }
-
-//   let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
-
-//   const favoriteMovie = movies.find((movie) => getMovieId(movie) == selectedId);
-
-//   if (
-//     favoriteMovies.length === 0 ||
-//     !favoriteMovies.some((movie) => getMovieId(movie) == selectedId)
-//   ) {
-//     favoriteMovies.push(favoriteMovie);
-//     localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
-//   }
-// }
-
-async function toggleFavorite(button, selectedId) {
-  if (!localStorage.getItem("favoriteMovies")) {
-    localStorage.setItem("favoriteMovies", "[]");
-  }
-
-  let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
-  const movie = movies.find((movie) => getMovieId(movie) == selectedId);
-  const isFavorite = favoriteMovies.some(
-    (favoriteMovie) => getMovieId(favoriteMovie) == selectedId
-  );
-
-  if (isFavorite) {
-    favoriteMovies = favoriteMovies.filter(
-      (favoriteMovie) => getMovieId(favoriteMovie) != selectedId
-    );
-    button.classList.remove("movie__favorite");
-  } else {
-    favoriteMovies.push(movie);
-    button.classList.add("movie__favorite");
-  }
-
-  localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
-}
-
 //********************Getting favorites */
-// favoriteBtn.addEventListener("click", (e) => {
-//   e.preventDefault();
-//   getMovies(API_URL_FAVORITE);
-// });
+favoriteBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const favoriteMovies = getFavoriteMovies();
+  displayMovies(favoriteMovies);
+});
