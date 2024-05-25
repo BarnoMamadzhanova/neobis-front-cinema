@@ -9,16 +9,28 @@ const digitalBtn = document.querySelector("#digital");
 const favoriteBtn = document.querySelector("#favorite");
 const navDetails = document.querySelector(".nav__link > details");
 const navDetailItems = document.querySelectorAll(".nav__link-item");
+const modalEl = document.querySelector(".modal__window");
 
 //******************API Urls* */
 const limit = 12;
-const API_KEY = "7e51323f-835f-418b-923a-51345a73fe8e";
+// const API_KEY = "7e51323f-835f-418b-923a-51345a73fe8e";
+const API_KEY = "b4891b23-2c88-4728-a0e5-92704b1f4fd6";
+
 const API_URL_POPULAR = `v2.2/films/collections?type=TOP_POPULAR_ALL&page=1`;
 const API_URL_SEARCH = `v2.1/films/search-by-keyword?keyword=`;
 const API_URL_PREMIERES = `v2.2/films/premieres?year=2024&month=MAY`;
 const API_URL_BEST = `v2.2/films/collections?type=TOP_250_MOVIES&page=1`;
 const API_URL_DIGITAL = `v2.1/films/releases?year=2024&month=MAY&page=1`;
 const API_URL_COMING_SOON = `v2.2/films/collections?type=CLOSES_RELEASES&page=1`;
+const API_URL_DETAILS = `https://kinopoiskapiunofficial.tech/api/v2.2/films/`;
+
+let movies = [];
+let isFavoritesShown = false;
+
+// Retrieve favorite movies from local storage
+function getFavoriteMovies() {
+  return JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+}
 
 //****************fetching URL */
 async function getMovies(url) {
@@ -48,6 +60,11 @@ function getMovieName(movie) {
   return movie.nameRu ?? movie.nameEn ?? movie.nameOriginal ?? null;
 }
 
+//*********Getting id according to response */
+function getMovieId(movie) {
+  return movie.kinopoiskId ?? movie.filmId ?? movie.imdbId;
+}
+
 //*************Calculating Class by rating */
 function getClassByRating(rating) {
   if (rating >= 8) {
@@ -60,25 +77,35 @@ function getClassByRating(rating) {
 }
 
 //*******************Displayng movie cards */
-function displayMovies(data) {
-  const moviesEl = document.querySelector(".movies__grid-box");
-  document.querySelector(".movies__grid-box").innerHTML = "";
+function displayMovies(data, showFavorites = false) {
+  isFavoritesShown = showFavorites ? true : false;
 
-  let movies = [];
+  const moviesEl = document.querySelector(".movies__grid-box");
+  moviesEl.innerHTML = ""; // Clear previous movies
+
   if (data.films) {
     movies = data.films;
   } else if (data.releases) {
     movies = data.releases;
   } else if (data.items) {
     movies = data.items;
+  } else if (Array.isArray(data)) {
+    movies = data; // To handle the favoriteMovies array
   } else {
     console.error("Unexpected response format:", data);
     return;
   }
 
+  const favoriteMovies = getFavoriteMovies();
+
   movies.slice(0, limit).forEach((movie) => {
     const rating = getRating(movie);
     const name = getMovieName(movie);
+    const movieID = getMovieId(movie);
+
+    const isFavorite = favoriteMovies.some(
+      (favoriteMovie) => getMovieId(favoriteMovie) == movieID
+    );
 
     const movieEl = document.createElement("div");
 
@@ -103,7 +130,9 @@ function displayMovies(data) {
     <div class="movie__info">
         <div class="movie__title-box">
             <div class="movie__title">${name}</div>
-            <button id="favorite">&#9829</button>
+            <button class="addFavorite ${
+              isFavorite ? "movie__favorite" : ""
+            }" data-id="${movieID}">&#9829</button>
         </div>
         <div class="movie__category">${movie.genres.map(
           (genre) => ` ${genre.genre}`
@@ -112,8 +141,55 @@ function displayMovies(data) {
         ${outputRating}
     </div>
     `;
+    const movieDetailsImg = movieEl.querySelector(".movie__cover--overlay");
+    const movieDetailsName = movieEl.querySelector(".movie__title");
+
+    movieDetailsImg.addEventListener("click", () => openModalWindow(movieID));
+    movieDetailsName.addEventListener("click", () => openModalWindow(movieID));
+
     moviesEl.appendChild(movieEl);
   });
+
+  document.querySelectorAll(".addFavorite").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const selectedId = e.target.getAttribute("data-id");
+      toggleFavorite(e.target, selectedId);
+    });
+  });
+}
+
+//****************************Favorites */
+async function toggleFavorite(button, selectedId) {
+  if (!localStorage.getItem("favoriteMovies")) {
+    localStorage.setItem("favoriteMovies", "[]");
+  }
+
+  let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
+  const movie = movies.find((movie) => getMovieId(movie) == selectedId);
+  const isFavorite = favoriteMovies.some(
+    (favoriteMovie) => getMovieId(favoriteMovie) == selectedId
+  );
+
+  if (isFavorite) {
+    favoriteMovies = favoriteMovies.filter(
+      (favoriteMovie) => getMovieId(favoriteMovie) != selectedId
+    );
+    button.classList.remove("movie__favorite");
+
+    if (isFavoritesShown) {
+      let movieElement = button.closest(".movie");
+      movieElement.classList.add("hide-movie");
+      setTimeout(() => {
+        movieElement.remove();
+      }, 500);
+    }
+  } else {
+    favoriteMovies.push(movie);
+    button.classList.add("movie__favorite");
+  }
+
+  localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
 }
 
 //*******************Getting popular movies */
@@ -161,7 +237,70 @@ navDetailItems.forEach((item) => {
 });
 
 //********************Getting favorites */
-// favoriteBtn.addEventListener("click", (e) => {
-//   e.preventDefault();
-//   getMovies(API_URL_FAVORITE);
-// });
+favoriteBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const favoriteMovies = getFavoriteMovies();
+  displayMovies(favoriteMovies, true);
+});
+
+//***********************Modal Window*******/
+
+async function openModalWindow(id) {
+  const responseByID = await fetch(API_URL_DETAILS.concat(id), {
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-KEY": API_KEY,
+    },
+  });
+
+  const responseByIdData = await responseByID.json();
+  const name = getMovieName(responseByIdData);
+  modalEl.classList.add("modal--display");
+  document.body.classList.add("stop-scrolling");
+
+  modalEl.innerHTML = `
+    <div class="modal__card">
+      <img class="modal__movie-backdrop" src="${
+        responseByIdData.posterUrlPreview
+      }" alt="${name}">
+      <h2 class="modal__movie-title">${name}</h2>
+      <ul class="modal__movie-info">
+        <div class="loader"></div>
+        <li class="modal__movie-genre">Жанр - ${responseByIdData.genres.map(
+          (el) => ` <span>${el.genre}</span>`
+        )}</li>
+        ${
+          responseByIdData.filmLength
+            ? `<li class="modal__movie-runtime">Время - ${responseByIdData.filmLength} минут</li>`
+            : ""
+        }
+        <li >Сайт: <a class="modal__movie-website" href="${
+          responseByIdData.webUrl
+        }">${responseByIdData.webUrl}</a></li>
+        <li class="modal__movie-overview">Описание - ${
+          responseByIdData.description
+        }</li>
+      </ul>
+      <button type="button" class="modal__btn-close">Закрыть</button>
+    </div>
+  `;
+  const btnClose = document.querySelector(".modal__btn-close");
+  btnClose.addEventListener("click", () => closeModalWindow());
+}
+
+function closeModalWindow() {
+  modalEl.classList.remove("modal--display");
+  document.body.classList.remove("stop-scrolling");
+}
+
+window.addEventListener("click", (e) => {
+  if (e.target === modalEl) {
+    closeModalWindow();
+  }
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.keyCode === 27) {
+    closeModalWindow();
+  }
+});

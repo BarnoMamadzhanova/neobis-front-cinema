@@ -3,7 +3,7 @@ $background-color: #1a191f;
 $text-color: #ffffff;
 $movie-bgColor: #000000;
 $movie-overlayColor: grey;
-$movie-favoriteColor: rgba(135, 0, 0, 0.84);
+$movie-favoriteColor: rgb(203, 0, 0);
 $movie-categoryColor: #ffd80e;
 $movie-yearColor: #f9ecce;
 
@@ -20,6 +20,10 @@ html {
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: $background-color;
+}
+
+main {
+    margin: 1rem;
 }
 
 .container {
@@ -45,7 +49,7 @@ body {
 
             a {
                 text-decoration: none;
-                color: $text-color;
+                color: $movie-yearColor;
 
                 &:hover {
                     opacity: 0.6;
@@ -66,7 +70,6 @@ body {
                 .nav__link {
                     position: relative;
                     display: block;
-                    // width: 12rem;
 
 
                     >a {
@@ -104,7 +107,6 @@ body {
                         }
 
                         >div {
-                            // top: 2.5rem;
                             position: relative;
                             z-index: inherit;
 
@@ -140,7 +142,8 @@ body {
         }
 
         .header__search {
-            padding: 0.5rem 2rem 0.5rem 0.5rem;
+            padding: 0.5rem;
+            width: 12rem;
             border: 2px solid $background-color;
             border-radius: 0.3125rem;
             outline: none;
@@ -157,9 +160,16 @@ body {
     .movie {
         position: relative;
 
+        &.hide-movie {
+            opacity: 0;
+            transition: all .5s ease;
+        }
+
         .movie__cover-inner {
             position: relative;
-            height: 380px;
+            aspect-ratio: 2/3;
+            width: 100%;
+            overflow: hidden;
 
             .movie__cover {
                 width: 100%;
@@ -198,19 +208,25 @@ body {
                 color: $text-color;
                 font-size: 1.2rem;
 
+                .movie__title {
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+
                 button {
                     border: none;
                     background-color: $background-color;
                     color: $text-color;
                     font-size: 1.8rem;
 
-                    .movie__favorite {
-                        color: rgba(135, 0, 0, 0.84);
-                    }
-
                     &:hover {
                         cursor: pointer;
                     }
+                }
+
+                .movie__favorite {
+                    color: $movie-favoriteColor;
                 }
 
             }
@@ -255,4 +271,232 @@ body {
             }
         }
     }
+}
+
+.modal__window {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba($movie-bgColor, 0.5);
+    transition: width 2s;
+
+}
+
+.modal--display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal__card {
+        background-color: $text-color;
+        max-width: 600px;
+        padding: 1rem;
+        box-shadow: 0 0 1rem 0 rgba($movie-bgColor, 0.5);
+        background-color: $background-color;
+        color: $text-color;
+        display: flex;
+        flex-direction: column;
+
+        .modal__movie-backdrop {
+            width: 200px;
+            margin: 0 auto
+        }
+
+        .modal__movie-title {
+            margin: 0.5rem 0;
+            color: $movie-yearColor;
+        }
+
+        .modal__movie-info {
+            margin-left: 1rem;
+        }
+
+        .modal__btn-close {
+            padding: 0.3rem 0.5rem;
+            margin: 0.5rem;
+            align-self: center;
+            border-radius: 0.25rem;
+        }
+
+        .modal__movie-website {
+            color: $movie-categoryColor
+        }
+
+        ul li {
+            padding: 0.25rem;
+        }
+    }
+}
+
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 1050px) {
+
+
+    .movies__grid-box {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+@media screen and (max-width: 992px) {
+
+    html {
+        font-size: 14;
+    }
+
+    .movies__grid-box {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+
+    html {
+        font-size: 13px;
+    }
+
+    .movies__grid-box {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    html {
+        font-size: 12px;
+    }
+
+    details {
+        width: 140px !important;
+
+        &[open] {
+            padding-top: 120px !important;
+        }
+
+        >div {
+
+            p {
+                width: 140px !important;
+
+            }
+        }
+
+    }
+
+    .movies__grid-box {
+        padding: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media screen and (max-width: 520px) {
+
+    html {
+        font-size: 13;
+    }
+
+    details {
+        width: 140px !important;
+
+        &[open] {
+            padding-top: 120px !important;
+        }
+
+        >div {
+
+            p {
+                width: 140px !important;
+
+            }
+        }
+
+    }
+
+    .movies__grid-box {
+        padding: 2.5rem;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 2rem;
+    }
+
+
+    .modal--display {
+
+        .modal__card {
+
+            max-width: 400px !important;
+
+            .modal__movie-title {
+                font-size: 1.5rem;
+            }
+
+            .modal__movie-info {
+                font-size: 1.1rem;
+            }
+
+        }
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+
+    html {
+        font-size: 12px;
+    }
+
+    details {
+        width: 140px !important;
+
+        &[open] {
+            padding-top: 120px !important;
+        }
+
+        >div {
+
+            p {
+                width: 140px !important;
+
+            }
+        }
+
+    }
+
+    .movies__grid-box {
+        padding: 2.5rem;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 2rem;
+    }
+
+
+    .modal--display {
+
+        .modal__card {
+
+            max-width: 360px !important;
+
+            .modal__movie-title {
+                font-size: 1.2rem;
+            }
+
+            .modal__movie-info {
+                font-size: 1rem;
+            }
+
+        }
+    }
+
 }
