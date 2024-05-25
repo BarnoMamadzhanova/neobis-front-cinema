@@ -137,12 +137,18 @@ function displayMovies(data) {
         ${outputRating}
     </div>
     `;
-    movieEl.addEventListener("click", () => openModal(movieID));
+    const movieDetailsImg = movieEl.querySelector(".movie__cover--overlay");
+    const movieDetailsName = movieEl.querySelector(".movie__title");
+
+    movieDetailsImg.addEventListener("click", () => openModalWindow(movieID));
+    movieDetailsName.addEventListener("click", () => openModalWindow(movieID));
+
     moviesEl.appendChild(movieEl);
   });
 
   document.querySelectorAll(".addFavorite").forEach((button) => {
     button.addEventListener("click", (e) => {
+      e.stopPropagation();
       const selectedId = e.target.getAttribute("data-id");
       toggleFavorite(e.target, selectedId);
     });
@@ -227,7 +233,7 @@ favoriteBtn.addEventListener("click", (e) => {
 
 //***********************Modal Window*******/
 
-async function openModal(id) {
+async function openModalWindow(id) {
   const responseByID = await fetch(API_URL_DETAILS.concat(id), {
     headers: {
       "Content-Type": "application/json",
@@ -236,7 +242,7 @@ async function openModal(id) {
   });
 
   const responseByIdData = await responseByID.json();
-
+  const name = getMovieName(responseByIdData);
   modalEl.classList.add("modal--display");
   document.body.classList.add("stop-scrolling");
 
@@ -244,17 +250,12 @@ async function openModal(id) {
     <div class="modal__card">
       <img class="modal__movie-backdrop" src="${
         responseByIdData.posterUrlPreview
-      }" alt="${responseByIdData.nameRu}">
-      <h2 class="modal__movie-titlebox">
-        <span class="modal__movie-title">${responseByIdData.nameRu}</span>
-        <span class="modal__movie-release-year"> - ${
-          responseByIdData.year
-        }</span>
-      </h2>
+      }" alt="${name}">
+      <h2 class="modal__movie-title">${name}</h2>
       <ul class="modal__movie-info">
         <div class="loader"></div>
         <li class="modal__movie-genre">Жанр - ${responseByIdData.genres.map(
-          (el) => `<span>${el.genre}</span>`
+          (el) => ` <span>${el.genre}</span>`
         )}</li>
         ${
           responseByIdData.filmLength
@@ -272,22 +273,22 @@ async function openModal(id) {
     </div>
   `;
   const btnClose = document.querySelector(".modal__btn-close");
-  btnClose.addEventListener("click", () => closeModal());
+  btnClose.addEventListener("click", () => closeModalWindow());
 }
 
-function closeModal() {
+function closeModalWindow() {
   modalEl.classList.remove("modal--display");
   document.body.classList.remove("stop-scrolling");
 }
 
 window.addEventListener("click", (e) => {
   if (e.target === modalEl) {
-    closeModal();
+    closeModalWindow();
   }
 });
 
 window.addEventListener("keydown", (e) => {
   if (e.keyCode === 27) {
-    closeModal();
+    closeModalWindow();
   }
 });

@@ -3,7 +3,7 @@ $background-color: #1a191f;
 $text-color: #ffffff;
 $movie-bgColor: #000000;
 $movie-overlayColor: grey;
-$movie-favoriteColor: rgba(135, 0, 0, 0.84);
+$movie-favoriteColor: rgb(203, 0, 0);
 $movie-categoryColor: #ffd80e;
 $movie-yearColor: #f9ecce;
 
@@ -45,7 +45,7 @@ body {
 
             a {
                 text-decoration: none;
-                color: $text-color;
+                color: $movie-yearColor;
 
                 &:hover {
                     opacity: 0.6;
@@ -140,7 +140,8 @@ body {
         }
 
         .header__search {
-            padding: 0.5rem 2rem 0.5rem 0.5rem;
+            padding: 0.5rem;
+            width: 12rem;
             border: 2px solid $background-color;
             border-radius: 0.3125rem;
             outline: none;
@@ -198,6 +199,12 @@ body {
                 color: $text-color;
                 font-size: 1.2rem;
 
+                .movie__title {
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+
                 button {
                     border: none;
                     background-color: $background-color;
@@ -210,7 +217,7 @@ body {
                 }
 
                 .movie__favorite {
-                    color: rgb(203, 0, 0);
+                    color: $movie-favoriteColor;
                 }
 
             }
@@ -291,8 +298,9 @@ body {
             margin: 0 auto
         }
 
-        .modal__movie-titlebox {
+        .modal__movie-title {
             margin: 0.5rem 0;
+            color: $movie-yearColor;
         }
 
         .modal__movie-info {
@@ -309,6 +317,10 @@ body {
         .modal__movie-website {
             color: $movie-categoryColor
         }
+
+        // .modal__movie-overview {
+        //     color: $movie-yearColor;
+        // }
 
         ul li {
             padding: 0.25rem;
