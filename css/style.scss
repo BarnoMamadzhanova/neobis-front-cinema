@@ -22,6 +22,10 @@ body {
     background-color: $background-color;
 }
 
+main {
+    margin: 1rem;
+}
+
 .container {
     max-width: 1200px;
     width: 100%;
@@ -66,7 +70,6 @@ body {
                 .nav__link {
                     position: relative;
                     display: block;
-                    // width: 12rem;
 
 
                     >a {
@@ -104,7 +107,6 @@ body {
                         }
 
                         >div {
-                            // top: 2.5rem;
                             position: relative;
                             z-index: inherit;
 
@@ -158,9 +160,16 @@ body {
     .movie {
         position: relative;
 
+        &.hide-movie {
+            opacity: 0;
+            transition: all .5s ease;
+        }
+
         .movie__cover-inner {
             position: relative;
-            height: 380px;
+            aspect-ratio: 2/3;
+            width: 100%;
+            overflow: hidden;
 
             .movie__cover {
                 width: 100%;
@@ -318,10 +327,6 @@ body {
             color: $movie-categoryColor
         }
 
-        // .modal__movie-overview {
-        //     color: $movie-yearColor;
-        // }
-
         ul li {
             padding: 0.25rem;
         }
@@ -332,4 +337,166 @@ body {
 .stop-scrolling {
     height: 100%;
     overflow: hidden;
+}
+
+@media screen and (max-width: 1050px) {
+
+
+    .movies__grid-box {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+@media screen and (max-width: 992px) {
+
+    html {
+        font-size: 14;
+    }
+
+    .movies__grid-box {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+
+    html {
+        font-size: 13px;
+    }
+
+    .movies__grid-box {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    html {
+        font-size: 12px;
+    }
+
+    details {
+        width: 140px !important;
+
+        &[open] {
+            padding-top: 120px !important;
+        }
+
+        >div {
+
+            p {
+                width: 140px !important;
+
+            }
+        }
+
+    }
+
+    .movies__grid-box {
+        padding: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media screen and (max-width: 520px) {
+
+    html {
+        font-size: 13;
+    }
+
+    details {
+        width: 140px !important;
+
+        &[open] {
+            padding-top: 120px !important;
+        }
+
+        >div {
+
+            p {
+                width: 140px !important;
+
+            }
+        }
+
+    }
+
+    .movies__grid-box {
+        padding: 2.5rem;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 2rem;
+    }
+
+
+    .modal--display {
+
+        .modal__card {
+
+            max-width: 400px !important;
+
+            .modal__movie-title {
+                font-size: 1.5rem;
+            }
+
+            .modal__movie-info {
+                font-size: 1.1rem;
+            }
+
+        }
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+
+    html {
+        font-size: 12px;
+    }
+
+    details {
+        width: 140px !important;
+
+        &[open] {
+            padding-top: 120px !important;
+        }
+
+        >div {
+
+            p {
+                width: 140px !important;
+
+            }
+        }
+
+    }
+
+    .movies__grid-box {
+        padding: 2.5rem;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 2rem;
+    }
+
+
+    .modal--display {
+
+        .modal__card {
+
+            max-width: 360px !important;
+
+            .modal__movie-title {
+                font-size: 1.2rem;
+            }
+
+            .modal__movie-info {
+                font-size: 1rem;
+            }
+
+        }
+    }
+
 }

@@ -13,6 +13,10 @@ body {
   background-color: #1a191f;
 }
 
+main {
+  margin: 1rem;
+}
+
 .container {
   max-width: 1200px;
   width: 100%;
@@ -122,9 +126,15 @@ body {
 .movies__grid-box .movie {
   position: relative;
 }
+.movies__grid-box .movie.hide-movie {
+  opacity: 0;
+  transition: all 0.5s ease;
+}
 .movies__grid-box .movie .movie__cover-inner {
   position: relative;
-  height: 380px;
+  aspect-ratio: 2/3;
+  width: 100%;
+  overflow: hidden;
 }
 .movies__grid-box .movie .movie__cover-inner .movie__cover {
   width: 100%;
@@ -265,4 +275,103 @@ body {
 .stop-scrolling {
   height: 100%;
   overflow: hidden;
+}
+
+@media screen and (max-width: 1050px) {
+  .movies__grid-box {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (max-width: 992px) {
+  html {
+    font-size: 14;
+  }
+  .movies__grid-box {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 13px;
+  }
+  .movies__grid-box {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 12px;
+  }
+  details {
+    width: 140px !important;
+  }
+  details[open] {
+    padding-top: 120px !important;
+  }
+  details > div p {
+    width: 140px !important;
+  }
+  .movies__grid-box {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+@media screen and (max-width: 520px) {
+  html {
+    font-size: 13;
+  }
+  details {
+    width: 140px !important;
+  }
+  details[open] {
+    padding-top: 120px !important;
+  }
+  details > div p {
+    width: 140px !important;
+  }
+  .movies__grid-box {
+    padding: 2.5rem;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+  }
+  .modal--display .modal__card {
+    max-width: 400px !important;
+  }
+  .modal--display .modal__card .modal__movie-title {
+    font-size: 1.5rem;
+  }
+  .modal--display .modal__card .modal__movie-info {
+    font-size: 1.1rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  html {
+    font-size: 12px;
+  }
+  details {
+    width: 140px !important;
+  }
+  details[open] {
+    padding-top: 120px !important;
+  }
+  details > div p {
+    width: 140px !important;
+  }
+  .movies__grid-box {
+    padding: 2.5rem;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+  }
+  .modal--display .modal__card {
+    max-width: 360px !important;
+  }
+  .modal--display .modal__card .modal__movie-title {
+    font-size: 1.2rem;
+  }
+  .modal--display .modal__card .modal__movie-info {
+    font-size: 1rem;
+  }
 }/*# sourceMappingURL=style.css.map */

@@ -7,14 +7,15 @@ const comingSoonBtn = document.querySelector("#coming-soon");
 const bestBtn = document.querySelector("#best");
 const digitalBtn = document.querySelector("#digital");
 const favoriteBtn = document.querySelector("#favorite");
-const btnAddToFavorite = document.querySelector("#addFavorite");
 const navDetails = document.querySelector(".nav__link > details");
 const navDetailItems = document.querySelectorAll(".nav__link-item");
 const modalEl = document.querySelector(".modal__window");
 
 //******************API Urls* */
 const limit = 12;
-const API_KEY = "7e51323f-835f-418b-923a-51345a73fe8e";
+// const API_KEY = "7e51323f-835f-418b-923a-51345a73fe8e";
+const API_KEY = "b4891b23-2c88-4728-a0e5-92704b1f4fd6";
+
 const API_URL_POPULAR = `v2.2/films/collections?type=TOP_POPULAR_ALL&page=1`;
 const API_URL_SEARCH = `v2.1/films/search-by-keyword?keyword=`;
 const API_URL_PREMIERES = `v2.2/films/premieres?year=2024&month=MAY`;
@@ -24,6 +25,7 @@ const API_URL_COMING_SOON = `v2.2/films/collections?type=CLOSES_RELEASES&page=1`
 const API_URL_DETAILS = `https://kinopoiskapiunofficial.tech/api/v2.2/films/`;
 
 let movies = [];
+let isFavoritesShown = false;
 
 // Retrieve favorite movies from local storage
 function getFavoriteMovies() {
@@ -75,7 +77,9 @@ function getClassByRating(rating) {
 }
 
 //*******************Displayng movie cards */
-function displayMovies(data) {
+function displayMovies(data, showFavorites = false) {
+  isFavoritesShown = showFavorites ? true : false;
+
   const moviesEl = document.querySelector(".movies__grid-box");
   moviesEl.innerHTML = ""; // Clear previous movies
 
@@ -172,6 +176,14 @@ async function toggleFavorite(button, selectedId) {
       (favoriteMovie) => getMovieId(favoriteMovie) != selectedId
     );
     button.classList.remove("movie__favorite");
+
+    if (isFavoritesShown) {
+      let movieElement = button.closest(".movie");
+      movieElement.classList.add("hide-movie");
+      setTimeout(() => {
+        movieElement.remove();
+      }, 500);
+    }
   } else {
     favoriteMovies.push(movie);
     button.classList.add("movie__favorite");
@@ -228,7 +240,7 @@ navDetailItems.forEach((item) => {
 favoriteBtn.addEventListener("click", (e) => {
   e.preventDefault();
   const favoriteMovies = getFavoriteMovies();
-  displayMovies(favoriteMovies);
+  displayMovies(favoriteMovies, true);
 });
 
 //***********************Modal Window*******/
