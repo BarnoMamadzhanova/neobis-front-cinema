@@ -118,7 +118,9 @@ function displayMovies(data) {
     <div class="movie__info">
         <div class="movie__title-box">
             <div class="movie__title">${name}</div>
-            <button class="addFavorite" data-id="${movieID}">&#9829</button>
+            <button class="addFavorite ${
+              isFavorite ? "movie__favorite" : ""
+            }" data-id="${movieID}">&#9829</button>
         </div>
         <div class="movie__category">${movie.genres.map(
           (genre) => ` ${genre.genre}`
@@ -133,7 +135,7 @@ function displayMovies(data) {
   document.querySelectorAll(".addFavorite").forEach((button) => {
     button.addEventListener("click", (e) => {
       const selectedId = e.target.getAttribute("data-id");
-      addToFavorite(selectedId);
+      toggleFavorite(e.target, selectedId);
     });
   });
 }
@@ -183,22 +185,46 @@ navDetailItems.forEach((item) => {
 });
 
 //****************************Favorites */
-async function addToFavorite(selectedId) {
+// async function addToFavorite(selectedId) {
+//   if (!localStorage.getItem("favoriteMovies")) {
+//     localStorage.setItem("favoriteMovies", "[]");
+//   }
+
+//   let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
+
+//   const favoriteMovie = movies.find((movie) => getMovieId(movie) == selectedId);
+
+//   if (
+//     favoriteMovies.length === 0 ||
+//     !favoriteMovies.some((movie) => getMovieId(movie) == selectedId)
+//   ) {
+//     favoriteMovies.push(favoriteMovie);
+//     localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
+//   }
+// }
+
+async function toggleFavorite(button, selectedId) {
   if (!localStorage.getItem("favoriteMovies")) {
     localStorage.setItem("favoriteMovies", "[]");
   }
 
   let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
+  const movie = movies.find((movie) => getMovieId(movie) == selectedId);
+  const isFavorite = favoriteMovies.some(
+    (favoriteMovie) => getMovieId(favoriteMovie) == selectedId
+  );
 
-  const favoriteMovie = movies.find((movie) => getMovieId(movie) == selectedId);
-
-  if (
-    favoriteMovies.length === 0 ||
-    !favoriteMovies.some((movie) => getMovieId(movie) == selectedId)
-  ) {
-    favoriteMovies.push(favoriteMovie);
-    localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
+  if (isFavorite) {
+    favoriteMovies = favoriteMovies.filter(
+      (favoriteMovie) => getMovieId(favoriteMovie) != selectedId
+    );
+    button.classList.remove("movie__favorite");
+  } else {
+    favoriteMovies.push(movie);
+    button.classList.add("movie__favorite");
   }
+
+  localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
 }
 
 //********************Getting favorites */

@@ -204,13 +204,13 @@ body {
                     color: $text-color;
                     font-size: 1.8rem;
 
-                    .movie__favorite {
-                        color: rgba(135, 0, 0, 0.84);
-                    }
-
                     &:hover {
                         cursor: pointer;
                     }
+                }
+
+                .movie__favorite {
+                    color: rgb(203, 0, 0);
                 }
 
             }

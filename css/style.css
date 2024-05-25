@@ -166,11 +166,11 @@ body {
   color: #ffffff;
   font-size: 1.8rem;
 }
-.movies__grid-box .movie .movie__info .movie__title-box button .movie__favorite {
-  color: rgba(135, 0, 0, 0.84);
-}
 .movies__grid-box .movie .movie__info .movie__title-box button:hover {
   cursor: pointer;
+}
+.movies__grid-box .movie .movie__info .movie__title-box .movie__favorite {
+  color: rgb(203, 0, 0);
 }
 .movies__grid-box .movie .movie__info .movie__category {
   color: #ffd80e;
