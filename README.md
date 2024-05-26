@@ -1,4 +1,4 @@
-# **Kinopoisk Movie App **
+# **Kinopoisk Movie App**
 
 ## **Table of Contents**
   - Overview
