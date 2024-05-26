@@ -35,8 +35,8 @@ main {
   gap: 1rem;
   padding: 1rem;
 }
-.header .header__flexbox .header__logo {
-  font-size: 2rem;
+.header .header__flexbox .header__logo .header__logo-home {
+  font-size: 1.8rem;
 }
 .header .header__flexbox .header__logo a {
   text-decoration: none;
@@ -44,6 +44,9 @@ main {
 }
 .header .header__flexbox .header__logo a:hover {
   opacity: 0.6;
+}
+.header .header__flexbox .header__logo a img {
+  display: none;
 }
 .header .header__flexbox .header__navbar .header__navbar-list {
   display: flex;
@@ -286,13 +289,30 @@ main {
   html {
     font-size: 14;
   }
+  .header__logo .header__logo-home {
+    display: none;
+  }
+  .header__logo a img {
+    display: block !important;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
   .movies__grid-box {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 @media screen and (max-width: 768px) {
   html {
-    font-size: 13px;
+    font-size: 14px;
+  }
+  details {
+    width: 160px !important;
+  }
+  details[open] {
+    padding-top: 136px !important;
+  }
+  details > div p {
+    width: 160px !important;
   }
   .movies__grid-box {
     grid-template-columns: repeat(2, 1fr);
@@ -301,13 +321,13 @@ main {
 }
 @media screen and (max-width: 600px) {
   html {
-    font-size: 12px;
+    font-size: 13px;
   }
   details {
     width: 140px !important;
   }
   details[open] {
-    padding-top: 120px !important;
+    padding-top: 128px !important;
   }
   details > div p {
     width: 140px !important;
@@ -323,19 +343,41 @@ main {
   html {
     font-size: 13;
   }
-  details {
+  main {
+    margin: 0.5rem;
+  }
+  .header__flexbox {
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.8rem;
+  }
+  .header__flexbox details {
     width: 140px !important;
   }
-  details[open] {
-    padding-top: 120px !important;
+  .header__flexbox details[open] {
+    padding-top: 128px !important;
   }
-  details > div p {
+  .header__flexbox details > div p {
     width: 140px !important;
   }
   .movies__grid-box {
-    padding: 2.5rem;
+    padding: 1.5rem 2.5rem;
     grid-template-columns: repeat(1, 1fr);
     gap: 2rem;
+  }
+  .movies__grid-box .movie__title-box {
+    font-size: 1.2rem !important;
+  }
+  .movies__grid-box .movie__title-box button {
+    font-size: 1.6rem !important;
+  }
+  .movies__grid-box .movie__category {
+    font-size: 1.1rem !important;
+    padding: 0.3rem 0 !important;
+  }
+  .movies__grid-box .movie__year {
+    font-size: 1.1rem !important;
+    padding: 0.3 0 !important;
   }
   .modal--display .modal__card {
     max-width: 400px !important;
@@ -344,34 +386,56 @@ main {
     font-size: 1.5rem;
   }
   .modal--display .modal__card .modal__movie-info {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 }
 @media screen and (max-width: 400px) {
   html {
     font-size: 12px;
   }
-  details {
+  main {
+    margin: 0;
+  }
+  .header__flexbox {
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.8rem;
+  }
+  .header__flexbox details {
     width: 140px !important;
   }
-  details[open] {
+  .header__flexbox details[open] {
     padding-top: 120px !important;
   }
-  details > div p {
+  .header__flexbox details > div p {
     width: 140px !important;
   }
   .movies__grid-box {
-    padding: 2.5rem;
+    padding: 1.5rem 2.5rem;
     grid-template-columns: repeat(1, 1fr);
-    gap: 2rem;
+    gap: 2.5rem;
+  }
+  .movies__grid-box .movie__title-box {
+    font-size: 1.4rem !important;
+  }
+  .movies__grid-box .movie__title-box button {
+    font-size: 1.6rem !important;
+  }
+  .movies__grid-box .movie__category {
+    font-size: 1.2rem !important;
+    padding: 0.4rem 0 !important;
+  }
+  .movies__grid-box .movie__year {
+    font-size: 1.2rem !important;
+    padding: 0.4rem 0 !important;
   }
   .modal--display .modal__card {
     max-width: 360px !important;
   }
   .modal--display .modal__card .modal__movie-title {
-    font-size: 1.2rem;
+    font-size: 1.4rem !important;
   }
   .modal--display .modal__card .modal__movie-info {
-    font-size: 1rem;
+    font-size: 1.2rem !important;
   }
 }/*# sourceMappingURL=style.css.map */
