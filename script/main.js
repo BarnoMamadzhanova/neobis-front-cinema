@@ -1,5 +1,4 @@
 //*************consts & selectors */
-
 const form = document.querySelector(".header__form");
 const search = document.querySelector(".header__search");
 const premiereBtn = document.querySelector("#premieres");
@@ -11,7 +10,7 @@ const navDetails = document.querySelector(".nav__link > details");
 const navDetailItems = document.querySelectorAll(".nav__link-item");
 const modalEl = document.querySelector(".modal__window");
 
-//******************API Urls* */
+//******************API Urls**********/
 const limit = 12;
 // const API_KEY = "7e51323f-835f-418b-923a-51345a73fe8e";
 const API_KEY = "b4891b23-2c88-4728-a0e5-92704b1f4fd6";
@@ -32,7 +31,7 @@ function getFavoriteMovies() {
   return JSON.parse(localStorage.getItem("favoriteMovies")) || [];
 }
 
-//****************fetching URL */
+//*******************Fetching URL******* */
 async function getMovies(url) {
   const BASE_URL = `https://kinopoiskapiunofficial.tech/api/`;
 
@@ -230,6 +229,7 @@ digitalBtn.addEventListener("click", (e) => {
   getMovies(API_URL_DIGITAL);
 });
 
+//********************Handling Details on selecting an item */
 navDetailItems.forEach((item) => {
   item.addEventListener("click", function () {
     navDetails.removeAttribute("open");
@@ -244,7 +244,6 @@ favoriteBtn.addEventListener("click", (e) => {
 });
 
 //***********************Modal Window*******/
-
 async function openModalWindow(id) {
   const responseByID = await fetch(API_URL_DETAILS.concat(id), {
     headers: {
@@ -288,17 +287,20 @@ async function openModalWindow(id) {
   btnClose.addEventListener("click", () => closeModalWindow());
 }
 
+//***********************Closing Modal Window and adding class Stop-scrolling to body*******/
 function closeModalWindow() {
   modalEl.classList.remove("modal--display");
   document.body.classList.remove("stop-scrolling");
 }
 
+//********************Closing Modal Window on click*******/
 window.addEventListener("click", (e) => {
   if (e.target === modalEl) {
     closeModalWindow();
   }
 });
 
+//********************Closing Modal Window by escape*******/
 window.addEventListener("keydown", (e) => {
   if (e.keyCode === 27) {
     closeModalWindow();

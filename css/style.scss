@@ -45,7 +45,10 @@ main {
         padding: 1rem;
 
         .header__logo {
-            font-size: 2rem;
+
+            .header__logo-home {
+                font-size: 1.8rem;
+            }
 
             a {
                 text-decoration: none;
@@ -53,6 +56,10 @@ main {
 
                 &:hover {
                     opacity: 0.6;
+                }
+
+                img {
+                    display: none;
                 }
             }
         }
@@ -351,7 +358,23 @@ main {
 @media screen and (max-width: 992px) {
 
     html {
-        font-size: 14;
+        font-size: 14 !important;
+    }
+
+    .header__logo {
+
+        .header__logo-home {
+            display: none;
+        }
+
+        a {
+
+            img {
+                display: block !important;
+                width: 2.5rem !important;
+                height: 2.5rem !important;
+            }
+        }
     }
 
     .movies__grid-box {
@@ -363,26 +386,54 @@ main {
 @media screen and (max-width: 768px) {
 
     html {
-        font-size: 13px;
+        font-size: 14px !important;
+    }
+
+    details {
+        width: 160px !important;
+
+        &[open] {
+            padding-top: 136px !important;
+        }
+
+        >div {
+
+            p {
+                width: 160px !important;
+
+            }
+        }
+
     }
 
     .movies__grid-box {
         grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
+        gap: 2rem !important;
+    }
+
+    .modal--display {
+
+        .modal__card {
+            max-width: 580px !important;
+        }
     }
 }
 
 @media screen and (max-width: 600px) {
 
     html {
-        font-size: 12px;
+        font-size: 13px !important;
+    }
+
+    main {
+        margin: 0.5rem !important;
     }
 
     details {
         width: 140px !important;
 
         &[open] {
-            padding-top: 120px !important;
+            padding-top: 128px !important;
         }
 
         >div {
@@ -392,44 +443,103 @@ main {
 
             }
         }
-
     }
 
     .movies__grid-box {
-        padding: 1.5rem;
-        display: grid;
+        padding: 1.5rem !important;
         grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
+        gap: 2rem !important;
+    }
+
+    .modal--display {
+
+        .modal__card {
+            max-width: 500px !important;
+        }
     }
 }
 
 @media screen and (max-width: 520px) {
 
     html {
-        font-size: 13;
+        font-size: 13 !important;
     }
 
-    details {
-        width: 140px !important;
+    main {
+        margin: 0.5rem !important;
+    }
 
-        &[open] {
-            padding-top: 120px !important;
+    .header__flexbox {
+        justify-content: space-between;
+        gap: 0.25rem !important;
+        padding: 0.5rem !important;
+
+        details {
+            width: 140px !important;
+
+            &[open] {
+                padding-top: 128px !important;
+            }
+
+            >div {
+
+                p {
+                    width: 140px !important;
+
+                }
+            }
+
         }
 
-        >div {
+        .header__search {
+            width: 2.2rem !important;
+            height: 2.2rem !important;
+            border: none !important;
+            border-radius: 1.3rem !important;
+            padding-left: 2rem !important;
 
-            p {
-                width: 140px !important;
+            background:
+                url(../assets/search.svg) no-repeat 8px/14px,
+                white;
+            cursor: pointer;
+            transition-property: width, border-radius, box-shadow;
+            transition-duration: 300ms;
 
+            &:focus {
+                width: 100px !important;
+                border-radius: 0.3rem !important;
+                box-shadow: 0 0 0 2px $movie-yearColor !important;
+                outline: none !important;
+                cursor: auto !important;
             }
         }
-
     }
 
+
+
     .movies__grid-box {
-        padding: 2.5rem;
+        padding: 1rem 2rem !important;
         grid-template-columns: repeat(1, 1fr);
-        gap: 2rem;
+        gap: 1.5rem !important;
+
+        .movie__title-box {
+            font-size: 1.2rem !important;
+
+            button {
+                font-size: 1.6rem !important;
+            }
+
+        }
+
+        .movie__category {
+            font-size: 1.1rem !important;
+            padding: 0.3rem 0 !important;
+        }
+
+        .movie__year {
+            font-size: 1.1rem !important;
+            padding: 0.3 0 !important;
+        }
     }
 
 
@@ -440,11 +550,11 @@ main {
             max-width: 400px !important;
 
             .modal__movie-title {
-                font-size: 1.5rem;
+                font-size: 1.5rem !important;
             }
 
             .modal__movie-info {
-                font-size: 1.1rem;
+                font-size: 1.2rem !important;
             }
 
         }
@@ -455,30 +565,83 @@ main {
 @media screen and (max-width: 400px) {
 
     html {
-        font-size: 12px;
+        font-size: 12px !important;
     }
 
-    details {
-        width: 140px !important;
+    main {
+        margin: 0 !important;
+    }
 
-        &[open] {
-            padding-top: 120px !important;
-        }
+    .header__flexbox {
+        justify-content: space-between !important;
+        gap: 0.25rem !important;
+        padding: 0.5rem !important;
 
-        >div {
+        details {
+            width: 100px !important;
 
-            p {
-                width: 140px !important;
+            &[open] {
+                padding-top: 166px !important;
+            }
 
+            >div {
+
+                p {
+                    width: 100px !important;
+
+                }
             }
         }
 
+        .header__search {
+            width: 2rem !important;
+            height: 2rem !important;
+            border: none !important;
+            border-radius: 1.2rem !important;
+            padding-left: 1.6rem !important;
+
+            background:
+                url(../assets/search.svg) no-repeat 6px/12px,
+                white;
+            cursor: pointer;
+            transition-property: width, border-radius, box-shadow;
+            transition-duration: 300ms;
+
+            &:focus {
+                width: 100px !important;
+                border-radius: 0.2rem !important;
+                box-shadow: 0 0 0 2px $movie-yearColor !important;
+                outline: none !important;
+                cursor: auto !important;
+            }
+        }
     }
 
+
+
     .movies__grid-box {
-        padding: 2.5rem;
+        padding: 1rem 2.5rem !important;
         grid-template-columns: repeat(1, 1fr);
-        gap: 2rem;
+        gap: 2rem !important;
+
+        .movie__title-box {
+            font-size: 1.4rem !important;
+
+            button {
+                font-size: 1.6rem !important;
+            }
+
+        }
+
+        .movie__category {
+            font-size: 1.2rem !important;
+            padding: 0.4rem 0 !important;
+        }
+
+        .movie__year {
+            font-size: 1.2rem !important;
+            padding: 0.4rem 0 !important;
+        }
     }
 
 
@@ -489,11 +652,11 @@ main {
             max-width: 360px !important;
 
             .modal__movie-title {
-                font-size: 1.2rem;
+                font-size: 1.4rem !important;
             }
 
             .modal__movie-info {
-                font-size: 1rem;
+                font-size: 1.2rem !important;
             }
 
         }
