@@ -287,15 +287,15 @@ main {
 }
 @media screen and (max-width: 992px) {
   html {
-    font-size: 14;
+    font-size: 14 !important;
   }
   .header__logo .header__logo-home {
     display: none;
   }
   .header__logo a img {
     display: block !important;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
   }
   .movies__grid-box {
     grid-template-columns: repeat(3, 1fr);
@@ -303,7 +303,7 @@ main {
 }
 @media screen and (max-width: 768px) {
   html {
-    font-size: 14px;
+    font-size: 14px !important;
   }
   details {
     width: 160px !important;
@@ -316,15 +316,18 @@ main {
   }
   .movies__grid-box {
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    gap: 2rem !important;
+  }
+  .modal--display .modal__card {
+    max-width: 580px !important;
   }
 }
 @media screen and (max-width: 600px) {
   html {
-    font-size: 13px;
+    font-size: 13px !important;
   }
   main {
-    margin: 0.5rem;
+    margin: 0.5rem !important;
   }
   details {
     width: 140px !important;
@@ -336,18 +339,20 @@ main {
     width: 140px !important;
   }
   .movies__grid-box {
-    padding: 1.5rem;
-    display: grid;
+    padding: 1.5rem !important;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    gap: 2rem !important;
+  }
+  .modal--display .modal__card {
+    max-width: 500px !important;
   }
 }
 @media screen and (max-width: 520px) {
   html {
-    font-size: 13;
+    font-size: 13 !important;
   }
   main {
-    margin: 0.5rem;
+    margin: 0.5rem !important;
   }
   .header__flexbox {
     justify-content: space-between;
@@ -382,9 +387,9 @@ main {
     cursor: auto !important;
   }
   .movies__grid-box {
-    padding: 1rem 2.5rem;
+    padding: 1rem 2rem !important;
     grid-template-columns: repeat(1, 1fr);
-    gap: 1.5rem;
+    gap: 1.5rem !important;
   }
   .movies__grid-box .movie__title-box {
     font-size: 1.2rem !important;
@@ -404,21 +409,21 @@ main {
     max-width: 400px !important;
   }
   .modal--display .modal__card .modal__movie-title {
-    font-size: 1.5rem;
+    font-size: 1.5rem !important;
   }
   .modal--display .modal__card .modal__movie-info {
-    font-size: 1.2rem;
+    font-size: 1.2rem !important;
   }
 }
 @media screen and (max-width: 400px) {
   html {
-    font-size: 12px;
+    font-size: 12px !important;
   }
   main {
-    margin: 0;
+    margin: 0 !important;
   }
   .header__flexbox {
-    justify-content: space-between;
+    justify-content: space-between !important;
     gap: 0.25rem !important;
     padding: 0.5rem !important;
   }
@@ -450,9 +455,9 @@ main {
     cursor: auto !important;
   }
   .movies__grid-box {
-    padding: 1rem 2.5rem;
+    padding: 1rem 2.5rem !important;
     grid-template-columns: repeat(1, 1fr);
-    gap: 2.5rem;
+    gap: 2rem !important;
   }
   .movies__grid-box .movie__title-box {
     font-size: 1.4rem !important;

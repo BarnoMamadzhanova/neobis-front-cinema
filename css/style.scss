@@ -406,10 +406,16 @@ main {
 
     }
 
-
     .movies__grid-box {
         grid-template-columns: repeat(2, 1fr);
         gap: 2rem !important;
+    }
+
+    .modal--display {
+
+        .modal__card {
+            max-width: 580px !important;
+        }
     }
 }
 
@@ -443,6 +449,13 @@ main {
         padding: 1.5rem !important;
         grid-template-columns: repeat(2, 1fr);
         gap: 2rem !important;
+    }
+
+    .modal--display {
+
+        .modal__card {
+            max-width: 500px !important;
+        }
     }
 }
 
@@ -505,7 +518,7 @@ main {
 
 
     .movies__grid-box {
-        padding: 1rem 2. !important;
+        padding: 1rem 2rem !important;
         grid-template-columns: repeat(1, 1fr);
         gap: 1.5rem !important;
 
