@@ -131,7 +131,7 @@ function displayMovies(data, showFavorites = false) {
             <div class="movie__title">${name}</div>
             <button class="addFavorite ${
               isFavorite ? "movie__favorite" : ""
-            }" data-id="${movieID}">&#9829</button>
+            }" data-id="${movieID}">&#10084;</button>
         </div>
         <div class="movie__category">${movie.genres.map(
           (genre) => ` ${genre.genre}`
